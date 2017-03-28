@@ -1,0 +1,41 @@
+author: sandman
+connection_points:
+- id: ns:mgmt
+  type: interface
+- id: ns:input
+  type: interface
+description: '"mirrorbrain service"'
+descriptor_version: '1.0'
+forwarding_graphs: []
+name: vmb
+network_functions:
+- vnf_id: vnf_vmir
+  vnf_name: vmir-vnf
+  vnf_vendor: sandman
+  vnf_version: '0.2'
+- vnf_id: vnf_vdir
+  vnf_name: vdir-vnf
+  vnf_vendor: sandman
+  vnf_version: '0.2'
+vendor: eu.sonata-nfv.service-descriptor
+version: '0.2'
+virtual_links:
+- connection_points_reference:
+  - vnf_vmir:mgmt
+  - vnf_vdir:mgmt
+  - ns:mgmt
+  connectivity_type: E-LAN
+  id: mgmt
+- connection_points_reference:
+  - ns:input
+  - vnf_vmir:input
+  connectivity_type: E-Line
+  id: input-2-vmir
+- connection_points_reference:
+  - vnf_vmir:output
+  - vnf_vdir:input
+  connectivity_type: E-Line
+  id: vmir-2-vdir
+vnf_depedency:
+- sandman:vmir-vnf:0.2
+- sandman:vdir-vnf:0.2
